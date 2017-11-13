@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DigitalMeasures;
+use razorbacks\digitalmeasures\rest\BadResponse;
 
 class ResumeController extends Controller
 {
@@ -12,6 +13,12 @@ class ResumeController extends Controller
 
         $endpoint = "/SchemaData/INDIVIDUAL-ACTIVITIES-Business/USERNAME:$username";
 
-        return $api->get($endpoint);
+        try {
+            $xml = $api->get($endpoint);
+        } catch (BadResponse $e) {
+            return abort(404);
+        }
+
+        return $xml;
     }
 }
