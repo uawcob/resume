@@ -12,3 +12,5 @@
 */
 
 Route::view('/', 'welcome');
+
+Route::get('/{username}', 'ResumeController@get');
