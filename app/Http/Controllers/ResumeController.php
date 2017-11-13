@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DigitalMeasures;
 use razorbacks\digitalmeasures\rest\BadResponse;
+use SimpleXMLElement;
 
 class ResumeController extends Controller
 {
@@ -19,6 +20,20 @@ class ResumeController extends Controller
             return abort(404);
         }
 
-        return $xml;
+        // strip namespaces
+        // https://secure.php.net/manual/en/simplexmlelement.xpath.php#96153
+        $xml = str_replace('xmlns=', 'ns=', $xml);
+
+        $xml = new SimpleXMLElement($xml);
+
+        $nodes = $xml->xpath('/Data/Record/PCI/FILE/UPLOAD_FILE');
+
+        $filename = (string)($nodes[0] ?? null);
+
+        if (empty($filename)) {
+            return abort(404);
+        }
+
+        return redirect(config('digitalmeasures.storage')."/$filename");
     }
 }
