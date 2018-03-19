@@ -12,7 +12,7 @@ class ResumeController extends Controller
     {
         $api = new DigitalMeasures;
 
-        $endpoint = "/SchemaData/INDIVIDUAL-ACTIVITIES-Business/USERNAME:$username/PCI";
+        $endpoint = "/SchemaData/INDIVIDUAL-ACTIVITIES-University/USERNAME:$username/PCI";
 
         try {
             $xml = $api->get($endpoint);
